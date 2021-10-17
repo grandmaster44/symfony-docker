@@ -18,5 +18,25 @@ services:
       context: .
       target: symfony_php_dev
     restart: on-failure
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # depends_on:
+    #   - mysql
     volumes:
       - .:/app
+
+  # mysql:
+  #   image: mysql:8
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: on-failure:3
+  #   environment:
+  #     MYSQL_DATABASE: symfony
+  #     MYSQL_USER: symfony
+  #     MYSQL_PASSWORD: symfony
+  #     MYSQL_ROOT_PASSWORD: root
+  #   volumes:
+  #     - db:/var/lib/mysql
+
+volumes:
+  db:
+    name: symfony_db_dev

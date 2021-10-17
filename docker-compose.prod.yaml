@@ -23,6 +23,7 @@ services:
     restart: on-failure:3
     environment:
       APP_ENV: prod
+      DATABASE_URL: "mysql://symfony:symfony@mysql:3306/symfony?serverVersion=8.0"
     mem_limit: 256M
     mem_reservation: 128M
     cpus: 0.3
@@ -31,9 +32,25 @@ services:
     volumes:
       - logs:/app/var/log
 
+  mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure:3
+    environment:
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - symfony
+    volumes:
+      - db:/var/lib/mysql
+
 volumes:
   logs:
     name: symfony_logs
+  db:
+    name: symfony_db
 
 networks:
   symfony:
