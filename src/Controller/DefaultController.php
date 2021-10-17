@@ -11,9 +11,14 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'default')]
     public function index(): Response
     {
-        return $this->render('default/index.html.twig', [
+        $response = $this->render('default/index.html.twig', [
             'version' => PHP_VERSION,
             'container' => $_ENV['HOSTNAME'] ?? ''
         ]);
+
+        $response->setSharedMaxAge(3600);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+
+        return $response;
     }
 }

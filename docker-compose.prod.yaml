@@ -1,6 +1,21 @@
 version: '3.7'
 
 services:
+  varnish:
+    image: varnish:6.6-alpine
+    container_name: symfony_varnish
+    restart: on-failure:3
+    cpus: 0.3
+    mem_limit: 128M
+    networks:
+      - symfony
+    depends_on:
+      - nginx
+    volumes:
+      - ./docker/varnish/default.vcl:/etc/varnish/default.vcl:ro
+    ports:
+      - 127.0.0.1:8101:80
+
   nginx:
     build:
       context: .
@@ -12,8 +27,6 @@ services:
       - symfony
     depends_on:
       - php
-    ports:
-      - 127.0.0.1:8101:80
 
   php:
     build:
