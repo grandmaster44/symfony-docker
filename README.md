@@ -15,3 +15,6 @@ Stack: php-fpm + nginx
 * added .dockerignore
 * added `docker-compose.yaml` for dev
 * added `docker-compose.prod.yaml` for prod
+
+## mysql
+docker run -d -p 3308:3306 --name mysql8 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test mysql:8
