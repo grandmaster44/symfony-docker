@@ -1,0 +1,9 @@
+**/*.log
+**/*.md
+**/node_modules/
+**/.git/
+**/docker-compose.*.yaml
+**/docker-compose.yaml
+**/Dockerfile
+var/
+vendor/

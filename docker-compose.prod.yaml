@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: .
+      target: symfony_nginx_prod
+    container_name: symfony_nginx
+    mem_limit: 128M
+    restart: on-failure:3
+    networks:
+      - symfony
+    depends_on:
+      - php
+    ports:
+      - 127.0.0.1:8101:80
+
+  php:
+    build:
+      context: .
+      target: symfony_php_prod
+    container_name: symfony_php
+    restart: on-failure:3
+    environment:
+      APP_ENV: prod
+    mem_limit: 256M
+    mem_reservation: 128M
+    cpus: 0.3
+    networks:
+      - symfony
+    volumes:
+      - logs:/app/var/log
+
+volumes:
+  logs:
+    name: symfony_logs
+
+networks:
+  symfony:
+    name: symfony
